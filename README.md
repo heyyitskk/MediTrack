@@ -20,6 +20,3 @@ Project structure
 
 Notes
 - This project targets Java 23. See `pom.xml` for compiler settings.
-# MediTrack (starter)
-
-Minimal starter scaffold for the MediTrack clinic management system. Follow `docs/Setup_Instructions.md` to build and run.
