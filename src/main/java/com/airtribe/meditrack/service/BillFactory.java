@@ -8,7 +8,12 @@ public final class BillFactory {
     }
 
     public static Bill createBill(String id, double baseAmount) {
-        double total = baseAmount + (baseAmount * Constants.TAX_RATE);
+        return createBill(id, baseAmount, new StandardBillingStrategy());
+    }
+
+    public static Bill createBill(String id, double baseAmount, BillingStrategy strategy) {
+        double adjusted = strategy.apply(baseAmount);
+        double total = adjusted + (adjusted * Constants.TAX_RATE);
         return new Bill(id, total);
     }
 }

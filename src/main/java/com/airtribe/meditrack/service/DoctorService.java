@@ -46,7 +46,7 @@ public class DoctorService {
     }
 
     public void remove(String id) {
-        store.values().removeIf(d -> d.getId().equals(id));
+        store.remove(id);
     }
 
     public void persist() {

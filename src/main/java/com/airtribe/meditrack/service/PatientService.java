@@ -49,7 +49,7 @@ public class PatientService {
     }
 
     public void remove(String id) {
-        store.values().removeIf(p -> p.getId().equals(id));
+        store.remove(id);
     }
 
     public void persist() {

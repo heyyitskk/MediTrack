@@ -6,6 +6,11 @@ public class IdGenerator {
     private static final IdGenerator INSTANCE = new IdGenerator();
     private final AtomicLong counter = new AtomicLong(1000);
 
+    static {
+        // static initializer to demonstrate application-wide setup
+        System.out.println("IdGenerator initialized with start=1000");
+    }
+
     private IdGenerator() {
     }
 

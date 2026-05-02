@@ -43,12 +43,10 @@ public class Appointment implements Cloneable {
 
     @Override
     public Appointment clone() {
-        try {
-            Appointment a = (Appointment) super.clone();
-            // LocalDateTime is immutable; deep clone not required here
-            return a;
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError(e);
-        }
+        // create a new Appointment instance with a fresh id
+        String newId = com.airtribe.meditrack.util.IdGenerator.getInstance().nextId("A");
+        Appointment a = new Appointment(newId, this.patientId, this.doctorId, this.when);
+        a.setStatus(this.status);
+        return a;
     }
 }
