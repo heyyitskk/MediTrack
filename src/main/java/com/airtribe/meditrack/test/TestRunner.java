@@ -33,6 +33,19 @@ public class TestRunner {
         Appointment appt = as.createAppointment(pat.getId(), doc.getId(), LocalDateTime.now().plusDays(2));
         System.out.println("Created appointment id=" + appt.getId() + " status=" + appt.getStatus());
 
+        // demonstrate cloning (deep/shallow semantics)
+        Patient patClone = pat.clone();
+        System.out.println("Cloned patient: " + patClone.describe());
+        patClone.setContact("clone+bob@example.com");
+        System.out.println("After modifying clone contact -> original contact=" + pat.getContact() + ", clone contact="
+                + patClone.getContact());
+
+        Appointment apptClone = appt.clone();
+        System.out.println("Cloned appointment id=" + apptClone.getId() + " status=" + apptClone.getStatus());
+        apptClone.setStatus(com.airtribe.meditrack.entity.AppointmentStatus.CANCELLED);
+        System.out.println("After changing clone status -> original status=" + appt.getStatus() + ", clone status="
+                + apptClone.getStatus());
+
         // persist data to CSV
         ps.persist();
         ds.persist();

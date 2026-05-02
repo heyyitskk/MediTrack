@@ -18,11 +18,9 @@ public class Patient extends Person implements Cloneable {
 
     @Override
     public Patient clone() {
-        try {
-            return (Patient) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError(e);
-        }
+        // create a new Patient instance with a new id to avoid id collisions
+        String newId = com.airtribe.meditrack.util.IdGenerator.getInstance().nextId("P");
+        return new Patient(newId, this.name, this.age, this.contact);
     }
 
     @Override

@@ -55,4 +55,8 @@ public class AppointmentService {
     public void persist() {
         PersistenceManager.saveAppointments(new ArrayList<>(store.values()));
     }
+
+    public void remove(String id) {
+        store.remove(id);
+    }
 }

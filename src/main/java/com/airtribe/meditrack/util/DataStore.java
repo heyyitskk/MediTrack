@@ -19,4 +19,12 @@ public class DataStore<T> {
     public List<T> values() {
         return new ArrayList<>(map.values());
     }
+
+    public T remove(String id) {
+        return map.remove(id);
+    }
+
+    public boolean contains(String id) {
+        return map.containsKey(id);
+    }
 }
