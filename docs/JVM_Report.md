@@ -1,31 +1,31 @@
-# JVM Report (concise)
+# JVM Report
 
 This project targets the Java Virtual Machine (JVM). The following gives a brief overview of the JVM components and runtime behavior relevant to this application.
 
-Class loader subsystem
-- Bootstrap class loader: loads core Java classes (rt/jdk modules). 
-- Platform and application class loaders: load JDK extension and application classes (the compiled classes in `target/classes`).
+## Class Loader
+- Bootstrap (primordial) class loader: loads core JDK classes and runtime (lowest level).
+- Platform (or extension) class loader: loads platform libraries and extension modules.
+- Application (system) class loader: loads application classes (compiled `target/classes` and dependencies on the classpath).
+- Delegation model: loaders delegate to parent first, ensuring core classes are resolved by the bootstrap loader. Useful for class isolation and avoiding duplicate core definitions.
 
-Runtime data areas
+## Runtime Data Areas
 - Method Area / Metaspace: class metadata and static information.
 - Heap: all object instances (Patients, Doctors, Appointments, utility singletons) are allocated here.
 - Java Stacks: per-thread stack frames for local variables and method calls.
 - Native method stacks and registers handled by JVM implementation.
 
-Execution engine and JIT
-- Bytecode interpretation is handled by the execution engine; HotSpot's JIT compiler optimizes hot methods at runtime to native code.
-- For long-running processes, JIT can significantly improve throughput for frequently executed code paths (e.g., CSV parsing loops).
+## Execution Engine
+- The execution engine reads and executes JVM bytecode (from class files) by interpreting instructions and managing frames/operand stacks.
+- It handles bytecode verification, linking (resolution of symbolic references), and dispatch to native methods via JNI when necessary.
+- Modern JVMs combine an interpreter with a JIT compiler to balance startup latency and runtime performance.
 
-Garbage collection
-- Modern JVMs (HotSpot) provide collectors like G1 and other experimental collectors (ZGC, Shenandoah). Default collector may vary by JDK and flags.
-- This small application does not require GC tuning; large datasets may benefit from heap sizing via `-Xms`/`-Xmx`.
+## JIT Compiler vs Interpreter
+- Interpreter: executes bytecode directly; low startup cost and simple execution but lower runtime performance.
+- JIT Compiler: identifies "hot" methods at runtime and compiles them to optimized native code (tiered compilation, inlining, escape analysis, etc.), improving steady-state throughput.
+- Trade-offs: JIT introduces warm-up time and compilation overhead but yields significant performance for long-running or frequently executed code paths (e.g., CSV parsing loops or heavy business logic).
 
-Portability and JVM flags
-- Use `java -version` to verify JDK 23.
-- Recommended runtime flags when required: `-Xms256m -Xmx1g` (adjust as needed).
+## Write Once, Run Anywhere
+- Java compiles source to platform-independent bytecode which runs on any compatible JVM implementation: compile once, run on multiple OS/architectures with a JVM.
+- Portability caveats: native libraries, platform-specific file paths/line endings, locale/timezone differences, and use of JVM-specific flags or modules can affect portability; test on target platforms when needed.
 
-Security and modules
-- This project uses the classpath (not Java modules). If migrating to the module system (`module-info.java`), be mindful of exported packages and reflective access.
-# JVM Report (placeholder)
 
-This document will be filled with the JVM report: Class Loader, Runtime Data Areas, Execution Engine, JIT vs Interpreter, and Write Once Run Anywhere.
